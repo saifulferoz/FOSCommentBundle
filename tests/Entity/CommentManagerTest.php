@@ -28,13 +28,15 @@ class CommentManagerTest extends TestCase
     protected $classMetadata;
     protected $dispatcher;
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!class_exists('Doctrine\\ORM\\EntityManager')) {
             $this->markTestSkipped('Doctrine ORM not installed');
         }
 
-        $this->dispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')->getMock();
+        $this->dispatcher = $this->getMockBuilder(
+            'Symfony\Component\EventDispatcher\EventDispatcherInterface'
+        )->getMock();
         $this->em = $this->getMockBuilder('Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
             ->getMock();

@@ -27,13 +27,15 @@ class VoteManagerTest extends TestCase
     protected $class;
     protected $classMetadata;
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!class_exists('Doctrine\\ORM\\EntityManager')) {
             $this->markTestSkipped('Doctrine ORM not installed');
         }
 
-        $this->dispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')->getMock();
+        $this->dispatcher = $this->getMockBuilder(
+            'Symfony\Component\EventDispatcher\EventDispatcherInterface'
+        )->getMock();
         $this->em = $this->getMockBuilder('Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
             ->getMock();
@@ -67,7 +69,9 @@ class VoteManagerTest extends TestCase
         $vote = $this->getMockBuilder('FOS\CommentBundle\Model\VoteInterface')->getMock();
         $vote->expects($this->any())
             ->method('getComment')
-            ->will($this->returnValue($this->getMockBuilder('FOS\CommentBundle\Model\VotableCommentInterface')->getMock()));
+            ->will(
+                $this->returnValue($this->getMockBuilder('FOS\CommentBundle\Model\VotableCommentInterface')->getMock())
+            );
 
         $this->em->expects($this->exactly(2))
             ->method('persist');

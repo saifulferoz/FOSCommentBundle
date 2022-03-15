@@ -27,13 +27,15 @@ class ThreadManagerTest extends TestCase
     protected $classMetadata;
     protected $dispatcher;
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!class_exists('Doctrine\\ORM\\EntityManager')) {
             $this->markTestSkipped('Doctrine ORM not installed');
         }
 
-        $this->dispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')->getMock();
+        $this->dispatcher = $this->getMockBuilder(
+            'Symfony\Component\EventDispatcher\EventDispatcherInterface'
+        )->getMock();
         $this->em = $this->getMockBuilder('Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
             ->getMock();
@@ -60,11 +62,11 @@ class ThreadManagerTest extends TestCase
         $thread = $this->getMockBuilder('FOS\CommentBundle\Model\ThreadInterface')->getMock();
 
         $this->em->expects($this->once())
-                ->method('persist')
-                ->with($thread);
+            ->method('persist')
+            ->with($thread);
 
         $this->em->expects($this->once())
-                ->method('flush');
+            ->method('flush');
 
         $manager = new ThreadManager($this->dispatcher, $this->em, $this->class);
         $manager->saveThread($thread);
@@ -83,9 +85,9 @@ class ThreadManagerTest extends TestCase
         $criteria = ['id' => 'hello'];
 
         $this->repository->expects($this->once())
-                ->method('findOneBy')
-                ->with($criteria)
-                ->will($this->returnValue($thread));
+            ->method('findOneBy')
+            ->with($criteria)
+            ->will($this->returnValue($thread));
 
         $manager = new ThreadManager($this->dispatcher, $this->em, $this->class);
         $result = $manager->findThreadBy($criteria);
