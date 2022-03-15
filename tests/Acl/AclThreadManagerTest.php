@@ -25,7 +25,7 @@ class AclThreadManagerTest extends TestCase
     protected $threadSecurity;
     protected $thread;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->realManager = $this->getMockBuilder('FOS\CommentBundle\Model\ThreadManagerInterface')->getMock();
         $this->threadSecurity = $this->getMockBuilder('FOS\CommentBundle\Acl\ThreadAclInterface')->getMock();
@@ -166,17 +166,17 @@ class AclThreadManagerTest extends TestCase
     public function testAddThreadCanCreate()
     {
         $this->threadSecurity->expects($this->once())
-                ->method('canCreate')
-                ->will($this->returnValue(true));
+            ->method('canCreate')
+            ->will($this->returnValue(true));
 
         $this->realManager->expects($this->once())
-                ->method('saveThread')
-                ->with($this->thread);
+            ->method('saveThread')
+            ->with($this->thread);
 
         $this->realManager->expects($this->once())
-                ->method('isNewThread')
-                ->with($this->thread)
-                ->will($this->returnValue(true));
+            ->method('isNewThread')
+            ->with($this->thread)
+            ->will($this->returnValue(true));
 
         $manager = new AclThreadManager($this->realManager, $this->threadSecurity);
         $manager->saveThread($this->thread);
