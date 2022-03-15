@@ -29,7 +29,7 @@ class FOSCommentExtension extends Extension
     /**
      * Loads and processes configuration to configure the Container.
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      *
      * @param array            $configs
      * @param ContainerBuilder $container

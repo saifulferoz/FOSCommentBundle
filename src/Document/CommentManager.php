@@ -26,7 +26,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class CommentManager extends BaseCommentManager
 {
     /**
-     * @var DocumentManager
+     * @var DocumentManager\
      */
     protected $dm;
 
