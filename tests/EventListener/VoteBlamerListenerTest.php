@@ -20,10 +20,14 @@ class VoteBlamerListenerTest extends TestCase
     protected $authorizationChecker;
     protected $tokenStorage;
 
-    public function setUp()
+    public function setUp(): void
     {
-        $this->tokenStorage = $this->getMockBuilder('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface')->getMock();
-        $this->authorizationChecker = $this->getMockBuilder('Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface')->getMock();
+        $this->tokenStorage = $this->getMockBuilder(
+            'Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface'
+        )->getMock();
+        $this->authorizationChecker = $this->getMockBuilder(
+            'Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface'
+        )->getMock();
     }
 
     public function testNonSignedVoteIsNotBlamed()
@@ -51,7 +55,9 @@ class VoteBlamerListenerTest extends TestCase
         $vote->expects($this->never())->method('setVoter');
         $event = new VoteEvent($vote);
         $this->tokenStorage->expects($this->once())->method('getToken')->will($this->returnValue('some non-null'));
-        $this->authorizationChecker->expects($this->once())->method('isGranted')->with('IS_AUTHENTICATED_REMEMBERED')->will($this->returnValue(false));
+        $this->authorizationChecker->expects($this->once())->method('isGranted')->with(
+            'IS_AUTHENTICATED_REMEMBERED'
+        )->will($this->returnValue(false));
         $listener = new VoteBlamerListener($this->authorizationChecker, $this->tokenStorage);
         $listener->blame($event);
     }
@@ -62,9 +68,14 @@ class VoteBlamerListenerTest extends TestCase
         $vote->expects($this->once())->method('setVoter');
         $event = new VoteEvent($vote);
 
-        $token = $this->getMockBuilder('Symfony\Component\Security\Core\Authentication\Token\TokenInterface')->getMock();
-        $token->expects($this->once())->method('getUser')->will($this->returnValue($this->getMockBuilder('Symfony\Component\Security\Core\User\UserInterface')->getMock()));
-        $this->authorizationChecker->expects($this->once())->method('isGranted')->with('IS_AUTHENTICATED_REMEMBERED')->will($this->returnValue(true));
+        $token = $this->getMockBuilder('Symfony\Component\Security\Core\Authentication\Token\TokenInterface')->getMock(
+        );
+        $token->expects($this->once())->method('getUser')->will(
+            $this->returnValue($this->getMockBuilder('Symfony\Component\Security\Core\User\UserInterface')->getMock())
+        );
+        $this->authorizationChecker->expects($this->once())->method('isGranted')->with(
+            'IS_AUTHENTICATED_REMEMBERED'
+        )->will($this->returnValue(true));
         $this->tokenStorage->expects($this->exactly(2))->method('getToken')->will($this->returnValue($token));
 
         $listener = new VoteBlamerListener($this->authorizationChecker, $this->tokenStorage);

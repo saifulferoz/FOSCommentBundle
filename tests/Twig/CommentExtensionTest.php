@@ -23,7 +23,7 @@ class CommentExtensionTest extends TestCase
 {
     protected $extension;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->extension = new CommentExtension();
     }
@@ -139,7 +139,9 @@ class CommentExtensionTest extends TestCase
     public function testIsDeletedWhenStateIsDeleted()
     {
         $comment = $this->getMockBuilder('FOS\CommentBundle\Model\CommentInterface')->getMock();
-        $comment->expects($this->once())->method('getState')->will($this->returnValue(\FOS\CommentBundle\Model\CommentInterface::STATE_DELETED));
+        $comment->expects($this->once())->method('getState')->will(
+            $this->returnValue(\FOS\CommentBundle\Model\CommentInterface::STATE_DELETED)
+        );
 
         $extension = new CommentExtension();
         $this->assertTrue($extension->isCommentInState($comment, $comment::STATE_DELETED));
@@ -148,7 +150,9 @@ class CommentExtensionTest extends TestCase
     public function testIsDeletedWhenStateIsNotDeleted()
     {
         $comment = $this->getMockBuilder('FOS\CommentBundle\Model\CommentInterface')->getMock();
-        $comment->expects($this->once())->method('getState')->will($this->returnValue(\FOS\CommentBundle\Model\CommentInterface::STATE_VISIBLE));
+        $comment->expects($this->once())->method('getState')->will(
+            $this->returnValue(\FOS\CommentBundle\Model\CommentInterface::STATE_VISIBLE)
+        );
 
         $extension = new CommentExtension();
         $this->assertFalse($extension->isCommentInState($comment, $comment::STATE_DELETED));

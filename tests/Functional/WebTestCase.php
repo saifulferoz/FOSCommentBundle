@@ -21,7 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
 class WebTestCase extends BaseWebTestCase
 {
     /**
-     * @var \Doctrine\Common\Persistence\ObjectManager
+     * @var \Doctrine\Persistence\ObjectManager
      */
     protected $em;
     protected static $schemaSetUp = false;
@@ -31,7 +31,7 @@ class WebTestCase extends BaseWebTestCase
      */
     protected $client;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!class_exists('Twig\Environment')) {
             $this->markTestSkipped('Twig is not available.');
@@ -56,7 +56,10 @@ class WebTestCase extends BaseWebTestCase
 
     public static function assertRedirect($response, $location)
     {
-        self::assertTrue($response->isRedirect(), 'Response should be a redirect, got status code: '.substr($response, 0, 2000));
+        self::assertTrue(
+            $response->isRedirect(),
+            'Response should be a redirect, got status code: '.substr($response, 0, 2000)
+        );
         self::assertSame('http://localhost'.$location, $response->headers->get('Location'));
     }
 
