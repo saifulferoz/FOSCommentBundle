@@ -20,16 +20,18 @@ use FOS\CommentBundle\Acl\RoleThreadAcl;
  */
 class RoleThreadAclTest extends AbstractRoleAcl
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
-        $this->roleAcl = new RoleThreadAcl($this->authorizationChecker,
+        $this->roleAcl = new RoleThreadAcl(
+            $this->authorizationChecker,
             $this->createRole,
             $this->viewRole,
             $this->editRole,
             $this->deleteRole,
-            '');
+            ''
+        );
         $this->passObject = $this->getMockBuilder('FOS\CommentBundle\Model\ThreadInterface')->getMock();
     }
 }

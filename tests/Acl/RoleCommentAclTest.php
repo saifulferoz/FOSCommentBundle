@@ -20,16 +20,18 @@ use FOS\CommentBundle\Acl\RoleCommentAcl;
  */
 class RoleCommentAclTest extends AbstractRoleAcl
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
-        $this->roleAcl = new RoleCommentAcl($this->authorizationChecker,
+        $this->roleAcl = new RoleCommentAcl(
+            $this->authorizationChecker,
             $this->createRole,
             $this->viewRole,
             $this->editRole,
             $this->deleteRole,
-            '');
+            ''
+        );
         $this->passObject = $this->getMockBuilder('FOS\CommentBundle\Model\CommentInterface')->getMock();
     }
 
